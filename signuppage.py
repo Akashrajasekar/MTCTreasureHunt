@@ -17,7 +17,7 @@ if st.button("Sign Up"):
         # Load existing data from the Excel file (if it exists)
         try:
             # Load the Excel file from GitHub
-            df = pd.read_excel("https://github.com/yourusername/your-repo/raw/main/user_data.xlsx")
+            df = pd.read_excel("https://github.com/Akashrajasekar/MTCTreasureHunt/raw/main/user_data.xlsx")
         except Exception as e:
             # If the file doesn't exist, create an empty DataFrame
             df = pd.DataFrame(columns=["Username", "Email", "Password"])
