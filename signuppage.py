@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+from openpyxl import Workbook
+import base64
 
 # Streamlit app
 st.title("Sign-up Page")
@@ -15,8 +17,9 @@ if st.button("Sign Up"):
     if password == confirm_password:
         # Load existing data from the Excel file (if it exists)
         try:
-            df = pd.read_excel("user_data.xlsx")
-        except FileNotFoundError:
+            # Load the Excel file from GitHub
+            df = pd.read_excel("https://github.com/yourusername/your-repo/raw/main/user_data.xlsx")
+        except Exception as e:
             # If the file doesn't exist, create an empty DataFrame
             df = pd.DataFrame(columns=["Username", "Email", "Password"])
 
@@ -24,8 +27,15 @@ if st.button("Sign Up"):
         new_user = {"Username": username, "Email": email, "Password": password}
         df = df.append(new_user, ignore_index=True)
 
-        # Save the updated data back to the Excel file
-        df.to_excel("user_data.xlsx", index=False)
+        # Create a new Excel file
+        wb = Workbook()
+        ws = wb.active
+        for r_idx, row in enumerate(df.iterrows(), 1):
+            for c_idx, value in enumerate(row[1], 1):
+                ws.cell(row=r_idx, column=c_idx, value=value)
+
+        # Save the updated data back to the Excel file in GitHub
+        wb.save("user_data.xlsx")
 
         st.success("You have successfully signed up!")
     else:
@@ -33,8 +43,8 @@ if st.button("Sign Up"):
 
 # Display the current user data
 try:
-    current_data = pd.read_excel("user_data.xlsx")
+    current_data = pd.read_excel("https://github.com/yourusername/your-repo/raw/main/user_data.xlsx")
     st.subheader("Current User Data")
     st.write(current_data)
-except FileNotFoundError:
+except Exception as e:
     st.info("No user data available yet.")
