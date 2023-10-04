@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-from openpyxl import Workbook
 import base64
 
 # Streamlit app
@@ -18,24 +17,17 @@ if st.button("Sign Up"):
         # Load existing data from the Excel file (if it exists)
         try:
             # Load the Excel file from GitHub
-            df = pd.read_excel("https://github.com/Akashrajasekar/MTCTreasureHunt/raw/main/user_data.xlsx")
+            df = pd.read_excel("https://github.com/yourusername/your-repo/raw/main/user_data.xlsx")
         except Exception as e:
             # If the file doesn't exist, create an empty DataFrame
             df = pd.DataFrame(columns=["Username", "Email", "Password"])
 
         # Append the new user data
         new_user = {"Username": username, "Email": email, "Password": password}
-        df = df.append(new_user, ignore_index=True)
+        df = pd.concat([df, pd.DataFrame(new_user, index=[0])], ignore_index=True)
 
         # Create a new Excel file
-        wb = Workbook()
-        ws = wb.active
-        for r_idx, row in enumerate(df.iterrows(), 1):
-            for c_idx, value in enumerate(row[1], 1):
-                ws.cell(row=r_idx, column=c_idx, value=value)
-
-        # Save the updated data back to the Excel file in GitHub
-        wb.save("user_data.xlsx")
+        df.to_excel("user_data.xlsx", index=False)
 
         st.success("You have successfully signed up!")
     else:
