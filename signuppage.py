@@ -18,7 +18,7 @@ if st.button("Sign Up"):
         # Load existing data from the Excel file (if it exists)
         try:
             # Load the Excel file from GitHub using its raw URL
-            excel_url = "https://github.com/yourusername/your-repo/raw/main/user_data.xlsx"
+            excel_url = "https://github.com/Akashrajasekar/MTCTreasureHunt/raw/main/user_data.xlsx"
             df = pd.read_excel(excel_url)
         except Exception as e:
             # If the file doesn't exist, create an empty DataFrame
@@ -59,7 +59,7 @@ if st.button("Sign Up"):
 
 # Display the current user data
 try:
-    current_data = pd.read_excel("https://github.com/yourusername/your-repo/raw/main/user_data.xlsx")
+    current_data = pd.read_excel("https://github.com/Akashrajasekar/MTCTreasureHunt/raw/main/user_data.xlsx")
     st.subheader("Current User Data")
     st.write(current_data)
 except Exception as e:
